@@ -6,10 +6,6 @@ const config = require("./config-local.json");
 
 const app = express();
 
-const imageRouter = require("./modules/api/images/router");
-const userRouter = require("./modules/api/users/router");
-const authRouter = require("./modules/api/auth/router");
-
 app.use((req, res, next) => {
   res.setHeader("X-Frame-Options", "ALLOWALL");
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
@@ -39,10 +35,6 @@ app.use(
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ extended: false }));
-
-app.use("/api/auth", authRouter);
-app.use("/api/images", imageRouter);
-app.use("/api/users", userRouter);
 
 app.get("/", (req, res) => {
   res.status(404).send("404 NOT FOUND");
