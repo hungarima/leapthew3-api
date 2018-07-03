@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ extended: false }));
 
 app.get("/", (req, res) => {
-  res.status(404).send("404 NOT FOUND");
+  res.send("Hello");
 });
 
 mongoose.connect(config.mongoPath, err => {
