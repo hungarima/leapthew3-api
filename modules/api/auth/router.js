@@ -10,7 +10,7 @@ router.post("/", (req, res) => {
       req.session.userInfo = userInfo;
       res.send(userInfo);
     })
-    .catch(error => res.status(error.status).json({ errMsg: error.err });
+    .catch(error => res.status(error.status).json({ errMsg: error.err }));
 });
 
 router.get("/", (req, res) => {
