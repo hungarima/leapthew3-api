@@ -1,5 +1,6 @@
 const userModel = require("./model");
 
+//Create User
 const createUser = ({ username, email, password }) =>
   new Promise((resolve, reject) => {
     userModel
@@ -8,6 +9,7 @@ const createUser = ({ username, email, password }) =>
       .catch(err => reject(err));
   });
 
+//Get All Users
 const getAllUsers = page =>
   new Promise((resolve, reject) => {
     userModel
@@ -30,7 +32,7 @@ const getAllUsers = page =>
       )
       .catch(err => reject(err));
   });
-
+  
 const getOneUser = id =>
   new Promise((resolve, reject) => {
     userModel

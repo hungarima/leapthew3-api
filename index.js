@@ -2,13 +2,26 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const session = require("express-session");
-const config = require("./config-production.json");
+const config = require("./config-local.json");
 
 
 var app = express();
 
 const userRouter = require("./modules/api/users/router");
 const authRouter = require("./modules/api/auth/router");
+const urlRouter = require("./modules/api/url/router");
+
+app.use(
+  session({
+    secret: config.sessionSecret,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: config.secureCookie,
+      maxAge: 12 * 60 * 60 * 1000
+    }
+  })
+);
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -16,6 +29,7 @@ app.use(bodyParser.json({ extended: false }));
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
+app.use("/api/url", urlRouter);
 
 
 app.use(express.static('./public'));
@@ -24,10 +38,6 @@ app.get('/', function(req, res) {
   res.send('Leap The W3');
 });
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
 
 
 
