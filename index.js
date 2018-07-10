@@ -6,6 +6,7 @@ const config = require("./config-production.json");
 
 
 var app = express();
+app.use(cors())
 
 const userRouter = require("./modules/api/users/router");
 const authRouter = require("./modules/api/auth/router");
@@ -32,7 +33,7 @@ app.use((req, res, next) => {
   next();
 })
 
-app.use(cors())
+
 
 app.use(
   session({
