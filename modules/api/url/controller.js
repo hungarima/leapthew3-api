@@ -29,8 +29,8 @@ const getAllUrl = page =>
       .then(data => {
         resolve(
           data.map(url =>
-            Object.assign({}, img._doc, {
-              imageUrl: `/api/url/${url._id}/data`
+            Object.assign({}, data._doc, {
+              url: `/api/url/${url._id}/data`
             })
           )
         );
@@ -177,6 +177,7 @@ const downVote = urlId =>
 
 module.exports = {
   createUrl,
+  getAllUrl,
   getUrl,
   updateUrl,
   deleteUrl,

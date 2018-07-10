@@ -8,7 +8,7 @@ const authMiddleware = require("../auth/auth");
 
 router.get("/", (req, res) => {
   urlController
-    .getUrl(req.query.page || 1)
+    .getAllUrl(req.query.page || 1)
     .then(url => res.send(url))
     .catch(err => {
       console.error(err);
@@ -39,11 +39,12 @@ router.get("/:urlId", (req, res) => {
 // });
 
 router.get("/:urlId/data", (req, res) => {
-  imageController
-    .getUrlData(req.params.imageId)
+
+  urlController
+    .getUrlData(req.params.urlId)
     .then(data => {
       res.contentType(data.contentType);
-      res.send(data.image);
+      res.send(data.url);
     })
     .catch(err => {
       console.error(err);
@@ -56,7 +57,6 @@ router.post(
   // authMiddleware.authorize
   
   (req, res) => {
-    console.log("blah")
     req.body.userId = req.session.userInfo.id;
 
     urlController

@@ -12,6 +12,7 @@ const Schema = mongoose.Schema;
 const urlModel = new Schema(
   {
     url: { type: String, required: true },
+    contentType: { type: String, default: "" },
     title: { type: String, default: "" },
     description: { type: String, default: "" },
     createdBy: { type: Schema.Types.ObjectId, ref: "users", required: true },
