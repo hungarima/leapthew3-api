@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const config = require("./config-production.json");
-
+const cors = require("cors");
 
 var app = express();
 app.use(cors())
