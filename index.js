@@ -6,7 +6,7 @@ const config = require("./config-production.json");
 const cors = require("cors");
 
 var app = express();
-app.use(cors({ origin: true }))
+app.use(cors({ origin: "https://leapthew3-webapp.herokuapp.com" }))
 
 const userRouter = require("./modules/api/users/router");
 const authRouter = require("./modules/api/auth/router");
