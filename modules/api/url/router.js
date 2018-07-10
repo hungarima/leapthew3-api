@@ -54,8 +54,7 @@ router.get("/:urlId/data", (req, res) => {
 
 router.post(
   "/",
-  // authMiddleware.authorize
-  
+  authMiddleware.authorize,
   (req, res) => {
     req.body.userId = req.session.userInfo.id;
 
