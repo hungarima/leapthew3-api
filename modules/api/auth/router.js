@@ -8,7 +8,6 @@ router.post("/", (req, res) => {
     .login(req.body)
     .then(userInfo => {
       req.session.userInfo = userInfo;
-      console.log(req.session)
       res.send(userInfo);
     })
     .catch(error => res.status(error.status).json({ errMsg: error.err }));

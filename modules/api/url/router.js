@@ -55,8 +55,6 @@ router.post(
   "/",
   authMiddleware.authorize,
   (req, res) => {
-    console.log(req.session)
-    
     req.body.userId = req.session.userInfo.id;
 
     urlController
