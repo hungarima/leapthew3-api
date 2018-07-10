@@ -14,29 +14,29 @@ const createUrl = ({ url, title, description, userId }) =>
       .catch(err => reject(err));
   });
 
-// const getAllUrl = page =>
-//   new Promise((resolve, reject) => {
-//     urlModel
-//       .find({
-//         active: true
-//       })
-//       .sort({ createdAt: -1 })
-//       .skip((page - 1) * 20)
-//       .limit(20)
-//       .select("_id title description createdAt view like")
-//       .populate("createdBy", "username avatarUrl")
-//       .exec()
-//       .then(data => {
-//         resolve(
-//           data.map(img =>
-//             Object.assign({}, img._doc, {
-//               imageUrl: `/api/images/${img._id}/data`
-//             })
-//           )
-//         );
-//       })
-//       .catch(err => reject(err));
-//   });
+const getAllUrl = page =>
+  new Promise((resolve, reject) => {
+    urlModel
+      .find({
+        active: true
+      })
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * 20)
+      .limit(20)
+      .select("_id title description createdAt view vote")
+      .populate("createdBy", "username avatarUrl")
+      .exec()
+      .then(data => {
+        resolve(
+          data.map(url =>
+            Object.assign({}, img._doc, {
+              imageUrl: `/api/url/${url._id}/data`
+            })
+          )
+        );
+      })
+      .catch(err => reject(err));
+  });
 
 const updateUrl = (id, { url, title, description }) =>
   new Promise((resolve, reject) => {

@@ -5,6 +5,17 @@ const router = express.Router();
 const urlController = require("./controller");
 const authMiddleware = require("../auth/auth");
 
+
+router.get("/", (req, res) => {
+  urlController
+    .getUrl(req.query.page || 1)
+    .then(url => res.send(url))
+    .catch(err => {
+      console.error(err);
+      res.status(500).send(err);
+    });
+});
+
 router.get("/:urlId", (req, res) => {
   urlController
     .getUrl(req.params.urlId)
@@ -42,9 +53,10 @@ router.get("/:urlId/data", (req, res) => {
 
 router.post(
   "/",
-  authMiddleware.authorize
-  ,
+  // authMiddleware.authorize
+  
   (req, res) => {
+    console.log("blah")
     req.body.userId = req.session.userInfo.id;
 
     urlController
