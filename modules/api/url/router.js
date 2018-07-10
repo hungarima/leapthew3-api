@@ -53,10 +53,10 @@ router.get("/:urlId/data", (req, res) => {
 
 router.post(
   "/",
-  // authMiddleware.authorize
-  
+  authMiddleware.authorize,
   (req, res) => {
-    console.log("blah")
+    console.log(req.session)
+    
     req.body.userId = req.session.userInfo.id;
 
     urlController
