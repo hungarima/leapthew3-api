@@ -11,6 +11,27 @@ const userRouter = require("./modules/api/users/router");
 const authRouter = require("./modules/api/auth/router");
 const urlRouter = require("./modules/api/url/router");
 
+app.use((req, res, next) => {
+  res.setHeader("X-Frame-Options", "ALLOWALL");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "POST, GET, PUT, DELETE, OPTIONS"
+  );
+
+  const acceptedOrigins = ["http://localhost:3000","http://localhost:6969", "https://leapthew3-api.herokuapp.com"];
+  if(req.headers.origin && acceptedOrigins.includes(req.headers.origin)) {
+    res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
+  }
+
+  res.setHeader("Access-Control-Allow-Credentials", true);
+
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Authorization, Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+})
+
 app.use(
   session({
     secret: config.sessionSecret,
