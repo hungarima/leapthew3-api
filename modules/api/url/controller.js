@@ -23,14 +23,17 @@ const getAllUrl = page =>
       .sort({ createdAt: -1 })
       .skip((page - 1) * 20)
       .limit(20)
-      .select("_id title description createdAt view vote")
+      .select("_id title description createdAt leapCount vote")
       .populate("createdBy", "username avatarUrl")
       .exec()
       .then(data => {
         resolve(
           data.map(url =>
             Object.assign({}, data._doc, {
-              url: `/api/url/${url._id}/data`
+              url: `/api/url/${url._id}/data`,
+              _id: url._id,
+              leapCount: url.leapCount,
+              votes: url.vote
             })
           )
         );
@@ -89,15 +92,18 @@ const getUrl = id =>
             active: true,
             _id: id
           })
-          .select("_id title description createdAt leapCount vote")
+          .select("_id title description createdAt vote")
           // .populate("comment.createdBy", "username avatarUrl")
           // .populate("createdBy", "username avatarUrl")
           .exec()
       )
-      .then(data =>
+      .then(data =>{
         resolve(
-          Object.assign({}, data._doc, { url: `/api/url/${id}/data` })
+          Object.assign({}, data._doc, {
+            url: `/api/url/${id}/data`,
+          })
         )
+      }
       )
       .catch(err => reject(err));
   });
@@ -109,7 +115,7 @@ const getUrlData = id =>
         active: true,
         _id: id
       })
-      .select("url contentType")
+      .select("url contentType _id title description createdAt vote")
       .exec()
       .then(data => resolve(data))
       .catch(err => reject(err));

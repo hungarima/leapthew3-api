@@ -44,7 +44,7 @@ router.get("/:urlId/data", (req, res) => {
     .getUrlData(req.params.urlId)
     .then(data => {
       res.contentType(data.contentType);
-      res.send(data.url);
+      res.send(data);
     })
     .catch(err => {
       console.error(err);
