@@ -9,11 +9,17 @@ const authMiddleware = require("../auth/auth");
 router.get("/", (req, res) => {
   urlController
     .getAllUrl(req.query.page || 1)
-    .then(url => res.send(url))
+    .then(url => {
+      res.send(url)
+    })
     .catch(err => {
       console.error(err);
       res.status(500).send(err);
     });
+});
+
+router.get("/currentUrlId", (req, res) => {
+  res.send(req.session.currentUrlId);
 });
 
 router.get("/:urlId", (req, res) => {
@@ -43,6 +49,9 @@ router.get("/:urlId/data", (req, res) => {
   urlController
     .getUrlData(req.params.urlId)
     .then(data => {
+      // save current Url to session:
+      req.session.currentUrlId = data._id;
+      
       res.contentType(data.contentType);
       res.send(data);
     })
