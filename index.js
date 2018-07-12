@@ -6,7 +6,6 @@ const config = require("./config-production.json");
 const cors = require("cors");
 
 var app = express();
-app.use(cors({ origin: "https://leapthew3-webapp.herokuapp.com", credentials: true }))
 
 const userRouter = require("./modules/api/users/router");
 const authRouter = require("./modules/api/auth/router");
@@ -24,7 +23,7 @@ app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", req.headers.origin);
   }
 
-  res.setHeader("Access-Control-Allow-Credentials", true);
+  res.setHeader("Access-Control-Allow-Credentials", true);  
 
   res.setHeader(
     "Access-Control-Allow-Headers",
