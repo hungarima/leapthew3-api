@@ -117,9 +117,9 @@ router.delete("/:id", authMiddleware.authorize, (req, res) => {
 //   }
 // );
 
-router.post("/:urlId/upvote", authMiddleware.authorize, (req, res) => {
+router.post("/:urlId/like", authMiddleware.authorize, (req, res) => {
   urlController
-    .upVote(req.params.urlId)
+    .like(req.params.urlId)
     .then(result => res.send(result))
     .catch(err => {
       console.error(err);
@@ -127,9 +127,9 @@ router.post("/:urlId/upvote", authMiddleware.authorize, (req, res) => {
     });
 });
 
-router.delete("/:urlId/like", authMiddleware.authorize, (req, res) => {
+router.delete("/:urlId/dislike", authMiddleware.authorize, (req, res) => {
   urlController
-    .downVote(req.params.imageId)
+    .dislike(req.params.urlId)
     .then(result => res.send(result))
     .catch(err => {
       console.error(err);

@@ -17,7 +17,8 @@ const urlModel = new Schema(
     description: { type: String, default: "" },
     createdBy: { type: Schema.Types.ObjectId, ref: "users", required: true },
     leapCount: { type: Number, default: 0 },
-    vote: { type: Number, default: 0 },
+    like: { type: Number, default: 0 },
+    dislike: { type: Number, default: 0 },
     active: { type: Boolean, default: true },
   },
   { timestamps: { createdAt: "createdAt" } }
