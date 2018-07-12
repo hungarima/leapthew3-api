@@ -7,8 +7,10 @@ const cors = require("cors");
 
 var app = express();
 
+var acceptDomain = process.env.DEV ? "http://localhost:3000/" : "https://leapthew3-webapp.herokuapp.com";
+console.log(acceptDomain);
 app.use(cors({ 
-  origin: "https://leapthew3-webapp.herokuapp.com",
+  origin: ["https://leapthew3-webapp.herokuapp.com", 'http://localhost:3000/'],
   credentials: true
  }))
 
