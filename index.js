@@ -7,6 +7,11 @@ const cors = require("cors");
 
 var app = express();
 
+// app.use(cors({ 
+//   origin: "https://leapthew3-webapp.herokuapp.com",
+//   credentials: true
+//  }))
+
 const userRouter = require("./modules/api/users/router");
 const authRouter = require("./modules/api/auth/router");
 const urlRouter = require("./modules/api/url/router");
@@ -60,9 +65,6 @@ app.use(express.static('./public'));
 app.get('/', function(req, res) {
   res.send('Leap The W3');
 });
-
-
-
 
 mongoose.connect(config.mongoPath, err => {
   if (err) console.error(err);
