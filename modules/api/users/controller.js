@@ -17,8 +17,8 @@ const getAllUsers = page =>
         active: true
       })
       .sort({ createdAt: -1 })
-      .skip((page - 1) * 20)
-      .limit(20)
+      .skip((page - 1) * 50)
+      .limit(50)
       .select("_id username email")
       .exec()
       .then(data =>
