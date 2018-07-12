@@ -151,7 +151,7 @@ const getUrlData = id =>
 //       .catch(err => reject(err));
 //   });
 
-const like = urlId =>
+const upvote = urlId =>
   new Promise((resolve, reject) => {
     urlModel
       .update(
@@ -159,7 +159,7 @@ const like = urlId =>
           _id: urlId
         },
         {
-          $inc: { like: 1 }
+          $inc: { vote: 1 }
         }
       )
       .then(data => {
@@ -168,7 +168,7 @@ const like = urlId =>
       .catch(err => reject(err));
   });
 
-const dislike = urlId =>
+const downvote = urlId =>
   new Promise((resolve, reject) => {
     urlModel
       .update(
@@ -176,7 +176,7 @@ const dislike = urlId =>
           _id: urlId
         },
         {
-          $inc: { dislike: 1 }
+          $inc: { vote: 1 }
         }
       )
       .then(data => resolve(data))
@@ -190,6 +190,6 @@ module.exports = {
   updateUrl,
   deleteUrl,
   getUrlData,
-  like,
-  dislike,
+  upvote,
+  downvote,
 };
