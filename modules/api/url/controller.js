@@ -21,8 +21,8 @@ const getAllUrl = page =>
         active: true
       })
       .sort({ createdAt: -1 })
-      .skip((page - 1) * 20)
-      .limit(20)
+      .skip((page - 1) * 50)
+      .limit(50)
       .select("_id title description createdAt leapCount vote")
       .populate("createdBy", "username avatarUrl")
       .exec()
