@@ -7,10 +7,10 @@ const cors = require("cors");
 
 var app = express();
 
-// app.use(cors({ 
-//   origin: "https://leapthew3-webapp.herokuapp.com",
-//   credentials: true
-//  }))
+app.use(cors({ 
+  origin: "https://leapthew3-webapp.herokuapp.com",
+  credentials: true
+ }))
 
 const userRouter = require("./modules/api/users/router");
 const authRouter = require("./modules/api/auth/router");
