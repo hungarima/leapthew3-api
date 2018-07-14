@@ -40,7 +40,11 @@ const getOneUser = id =>
         active: true,
         _id: id
       })
-      .select("_id username email password")
+      .select("_id username email")
+      .populate("upvotes", "url leapCount") // test
+      .populate("downvotes", "url title description vote") // test
+      .populate("saves", "url title description vote") // test
+      .populate("shares", "url title description vote") // test
       .exec()
       .then(data =>
         resolve(
@@ -142,6 +146,19 @@ const getUserForAuth = username =>
       .catch(err => reject(err));
   });
 
+const addUpvote = (userId, urlId) => {
+  new Promise((resolve, reject) => {
+    userModel
+      .update(
+        { _id: userId },
+        { $push: {upvotes: {_id: urlId}} }
+      )
+      .exec()
+      .then(data => resolve(data))
+      .catch(err => reject(err))
+  })
+};
+
 module.exports = {
   createUser,
   getAllUsers,
@@ -152,5 +169,6 @@ module.exports = {
   updateAvatar,
   deleteUser,
   getUserForAuth,
-  getAvatarData
+  getAvatarData,
+  addUpvote
 };

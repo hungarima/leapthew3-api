@@ -1,4 +1,5 @@
 const urlModel = require("./model");
+const userController = require("../users/controller");
 const fs = require("fs");
 
 const createUrl = ({ url, title, description, userId }) =>
@@ -82,7 +83,7 @@ const getUrl = id =>
         },
         {
           $inc: {
-            view: 1
+            leapCount: 1
           }
         }
       )
@@ -97,7 +98,7 @@ const getUrl = id =>
           // .populate("createdBy", "username avatarUrl")
           .exec()
       )
-      .then(data =>{
+      .then(data => {
         resolve(
           Object.assign({}, data._doc, {
             url: `/api/url/${id}/data`,
@@ -111,12 +112,26 @@ const getUrl = id =>
 const getUrlData = id =>
   new Promise((resolve, reject) => {
     urlModel
-      .findOne({
-        active: true,
-        _id: id
-      })
-      .select("url contentType _id title description createdAt vote")
-      .exec()
+      .update(
+        {
+          active: true,
+          _id: id
+        },
+        {
+          $inc: {
+            leapCount: 1
+          }
+        }
+      )
+      .then(result =>
+        urlModel
+          .findOne({
+            active: true,
+            _id: id
+          })
+          .select("url contentType _id title description leapCount createdAt vote")
+          .exec()
+      )
       .then(data => resolve(data))
       .catch(err => reject(err));
   });
@@ -151,7 +166,7 @@ const getUrlData = id =>
 //       .catch(err => reject(err));
 //   });
 
-const upvote = urlId =>
+const upvote = (userId, urlId) =>
   new Promise((resolve, reject) => {
     urlModel
       .update(
@@ -163,8 +178,11 @@ const upvote = urlId =>
         }
       )
       .then(data => {
-        console.log(data);
-        resolve(data)})
+        // save upvoted url to user's upvotes
+
+        userController.addUpvote(userId, urlId);
+        resolve(data)
+      })
       .catch(err => reject(err));
   });
 

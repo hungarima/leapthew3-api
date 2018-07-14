@@ -18,6 +18,10 @@ const userModel = new Schema(
         message: "{VALUE} is not a valid email address!"
       }
     },
+    saves: { type: [Schema.Types.ObjectId], ref: "url",  default: [] },
+    shares: { type: [Schema.Types.ObjectId], ref: "url",  default: [] },
+    upvotes: [{ type: Schema.Types.ObjectId, ref: "url" }],
+    downvotes: [{ type: Schema.Types.ObjectId, ref: "url" }],
     avatar: { type: Buffer },
     contentType: { type: String },
     active: { type: Boolean, default: true }

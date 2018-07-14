@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-
 const urlController = require("./controller");
 const authMiddleware = require("../auth/auth");
 
@@ -119,7 +118,7 @@ router.delete("/:id", authMiddleware.authorize, (req, res) => {
 
 router.post("/:urlId/upvote", authMiddleware.authorize, (req, res) => {
   urlController
-    .upvote(req.params.urlId)
+    .upvote(req.session.userInfo.id, req.params.urlId)
     .then(result => res.send(result))
     .catch(err => {
       console.error(err);
