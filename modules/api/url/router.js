@@ -126,9 +126,9 @@ router.post("/:urlId/upvote", authMiddleware.authorize, (req, res) => {
     });
 });
 
-router.delete("/:urlId/downvote", authMiddleware.authorize, (req, res) => {
+router.post("/:urlId/downvote", authMiddleware.authorize, (req, res) => {
   urlController
-    .downvote(req.params.urlId)
+    .downvote(req.session.userInfo.id, req.params.urlId)
     .then(result => res.send(result))
     .catch(err => {
       console.error(err);

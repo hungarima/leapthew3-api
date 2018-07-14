@@ -6,7 +6,7 @@ const upload = multer({ dest: "uploads/" });
 const userController = require("./controller");
 const authMiddleware = require("../auth/auth");
 
-router.get("/", (req, res) => {
+router.get("/", authMiddleware.authorize,(req, res) => {
   userController
     .getAllUsers(req.query.page || 1)
     .then(users => res.send(users))
@@ -36,13 +36,23 @@ router.get("/:id", (req, res) => {
     });
 });
 
+router.post("/save/:urlId", authMiddleware.authorize, (req, res) => {
+  userController
+    .saveUrl(req.session.userInfo.id, req.params.urlId)
+    .then(data => res.send(data))
+    .catch(err => {
+      console.log("ERROR!!!! " + err);
+      res.status(500).send(err);
+    });
+});
+
 router.use("/:id/*", authMiddleware.authorize, (req, res, next) => {
   if (req.session.userInfo.id != req.params.id) {
     res.status(401).send("Unauthorized!");
   } else next();
 });
 
-router.put("/:id/username", (req, res) => {
+router.post("/:id/username", (req, res) => {
   userController
     .updateUsername(req.params.id, req.body.username)
     .then(id => res.send(id))
@@ -64,7 +74,7 @@ router.put("/:id/password", (req, res) => {
 
 router.put("/:id/email", (req, res) => {
   userController
-    .updateUsername(req.params.id, req.body.email)
+    .updateEmail(req.params.id, req.body.email)
     .then(id => res.send(id))
     .catch(err => {
       console.error(err);

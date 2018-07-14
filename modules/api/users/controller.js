@@ -43,7 +43,7 @@ const getOneUser = id =>
       .select("_id username email")
       .populate("upvotes", "url leapCount") // test
       .populate("downvotes", "url title description vote") // test
-      .populate("saves", "url title description vote") // test
+      .populate("saves", "url leapCount") // test
       .populate("shares", "url title description vote") // test
       .exec()
       .then(data =>
@@ -152,6 +152,8 @@ const addUpvote = (userId, urlId) => {
       .update(
         { _id: userId },
         { $push: {upvotes: {_id: urlId}} }
+        // TODO: if urlId exists in downvotes => pull
+        // TODO: if urlId exists in upvotes => return
       )
       .exec()
       .then(data => resolve(data))
@@ -159,6 +161,45 @@ const addUpvote = (userId, urlId) => {
   })
 };
 
+const addDownvote = (userId, urlId) => {
+  new Promise((resolve, reject) => {
+    userModel
+      .update(
+        {_id: userId},
+        {$push: {downvotes: {_id: urlId}}}
+      )
+      .exec()
+      .then(data => resolve(data))
+      .catch(err => reject(err))
+  })
+};
+
+const saveUrl = (userId, urlId) => {
+  return new Promise((resolve, reject) => { // why return here ?
+    userModel
+      .update(
+        { _id: userId },
+        { $push: {saves: {_id: urlId}} }
+        // TODO: if urlId exists in saves => return
+      )
+      .exec()
+      .then(data => resolve(data))
+      .catch(err => reject(err))
+  })
+};
+
+const shareUrl = (userId, urlId) => {
+  new Promise((resolve, reject) => {
+    userModel
+      .update(
+        {_id: userId},
+        {$push: {shares: {_id: urlId}}}
+      )
+      .exec()
+      .then(data => resolve(data))
+      .catch(err => reject(err))
+  })
+};
 module.exports = {
   createUser,
   getAllUsers,
@@ -170,5 +211,8 @@ module.exports = {
   deleteUser,
   getUserForAuth,
   getAvatarData,
-  addUpvote
+  addUpvote,
+  addDownvote,
+  saveUrl,
+  shareUrl
 };

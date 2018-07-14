@@ -124,7 +124,7 @@ const getUrlData = id =>
         }
       )
       .then(result =>
-        urlModel
+        urlModel 
           .findOne({
             active: true,
             _id: id
@@ -177,16 +177,16 @@ const upvote = (userId, urlId) =>
           $inc: { vote: 1 }
         }
       )
-      .then(data => {
+      .then(result => {
         // save upvoted url to user's upvotes
-
         userController.addUpvote(userId, urlId);
-        resolve(data)
+        resolve(result);
       })
       .catch(err => reject(err));
+      // .then(data => resolve(data))
   });
 
-const downvote = urlId =>
+const downvote = (userId, urlId) =>
   new Promise((resolve, reject) => {
     urlModel
       .update(
@@ -194,10 +194,14 @@ const downvote = urlId =>
           _id: urlId
         },
         {
-          $inc: { vote: 1 }
+          $inc: { vote: -1 }
         }
       )
-      .then(data => resolve(data))
+      .then(result => {
+        // save downvoted url to user's downvotes
+        userController.addDownvote(userId, urlId);
+        resolve(result);
+      })
       .catch(err => reject(err));
   });
 
