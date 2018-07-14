@@ -19,7 +19,6 @@ const userModel = new Schema(
       }
     },
     saves: [{ type: [Schema.Types.ObjectId], ref: "url" }],
-    shares: [{ type: [Schema.Types.ObjectId], ref: "url"}],
     upvotes: [{ type: Schema.Types.ObjectId, ref: "url" }],
     downvotes: [{ type: Schema.Types.ObjectId, ref: "url" }],
     avatar: { type: Buffer },

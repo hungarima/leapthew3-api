@@ -44,7 +44,6 @@ const getOneUser = id =>
       .populate("upvotes", "url leapCount") // test
       .populate("downvotes", "url title description vote") // test
       .populate("saves", "url leapCount") // test
-      .populate("shares", "url title description vote") // test
       .exec()
       .then(data =>
         resolve(
@@ -188,18 +187,19 @@ const saveUrl = (userId, urlId) => {
   })
 };
 
-const shareUrl = (userId, urlId) => {
-  new Promise((resolve, reject) => {
-    userModel
-      .update(
-        {_id: userId},
-        {$push: {shares: {_id: urlId}}}
-      )
-      .exec()
-      .then(data => resolve(data))
-      .catch(err => reject(err))
-  })
-};
+// Deprecate shares
+// const shareUrl = (userId, urlId) => {
+//   new Promise((resolve, reject) => {
+//     userModel
+//       .update(
+//         {_id: userId},
+//         {$push: {shares: {_id: urlId}}}
+//       )
+//       .exec()
+//       .then(data => resolve(data))
+//       .catch(err => reject(err))
+//   })
+// };
 module.exports = {
   createUser,
   getAllUsers,
@@ -213,6 +213,5 @@ module.exports = {
   getAvatarData,
   addUpvote,
   addDownvote,
-  saveUrl,
-  shareUrl
+  saveUrl
 };
