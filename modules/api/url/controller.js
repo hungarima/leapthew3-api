@@ -124,7 +124,7 @@ const getUrlData = id =>
         }
       )
       .then(result =>
-        urlModel 
+        urlModel
           .findOne({
             active: true,
             _id: id
@@ -183,7 +183,7 @@ const upvote = (userId, urlId) =>
         resolve(result);
       })
       .catch(err => reject(err));
-      // .then(data => resolve(data))
+    // .then(data => resolve(data))
   });
 
 const downvote = (userId, urlId) =>

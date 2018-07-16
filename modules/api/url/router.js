@@ -9,7 +9,11 @@ router.get("/", (req, res) => {
   urlController
     .getAllUrl(req.query.page || 1)
     .then(url => {
-      res.send(url)
+      if(url.length == 0) res.send('end of urls')
+      else res.send({
+        url: url,
+        thisPageNum: req.query.page || 1
+      })
     })
     .catch(err => {
       console.error(err);
